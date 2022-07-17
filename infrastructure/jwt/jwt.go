@@ -14,6 +14,7 @@ func GenerateJwtToken(user model.User) (result model.ResultClaims, err error) {
 			Issuer:    config.GetServiceName() + config.GetServiceVersion(),
 			ExpiresAt: time.Now().Add(time.Duration(config.GetJWTExpired() * int(time.Minute))).Unix(),
 		},
+		Id:       user.Id,
 		Username: user.Username,
 		Email:    user.Email,
 		Role:     user.RoleName,

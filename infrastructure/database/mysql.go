@@ -30,5 +30,5 @@ func GetDBConnections() (db *gorm.DB, err error) {
 }
 
 func Migrate(db *gorm.DB) error {
-	return db.AutoMigrate(&model.User{})
+	return db.AutoMigrate(&model.User{}, &model.Invitation{})
 }

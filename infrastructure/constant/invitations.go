@@ -1,0 +1,14 @@
+package constant
+
+var (
+	MIN_LEN_INVITATION = 6
+	MAX_LEN_INVITATION = 12
+	EXPIRED_INVITATION = 7
+)
+
+var (
+	STATUS_INVITATION_USED     = "used"
+	STATUS_INVITATION_UNUSED   = "un_used"
+	STATUS_INVITATION_ACTIVE   = "active"
+	STATUS_INVITATION_INACTIVE = "in_active"
+)

@@ -14,8 +14,13 @@ var (
 	ErrInvalidSigningMethod    = "Signing method invalid"
 	ErrInvalidToken            = "invalid jwt token"
 	ErrRoleName                = "invalid role name"
+	ErrMapClaimsNotFound       = "map jwt claims not found!"
+	ErrGenerateInvitation      = "failed to generate invitation, try again!"
+	ErrInvalidCode             = "invalid invitation code, try again!"
+	ErrGetInvitation           = "failed to get invitation, try again!"
 )
 
 var (
 	EmailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+	Charset    = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 )
