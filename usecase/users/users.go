@@ -8,7 +8,7 @@ import (
 type UserUsecase interface {
 	Register(request model.Register, role string) error
 	GeneratePassword(password string) (hashedPassword string, err error)
-	Login(request model.Login) (jwtResult model.ResultClaims, err error)
+	Login(request model.Login, role string) (jwtResult model.ResultClaims, err error)
 	ComparePassword(hashedPassword string, password string) bool
 }
 

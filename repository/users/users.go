@@ -79,7 +79,7 @@ func (r *userRepository) GetUserByEmail(email string) (result model.User, err er
 	}
 
 	if result.Id == uuid.Nil {
-		err = errors.New(constant.UserDoesntExist)
+		err = errors.New(constant.ErrUserDoesntExist)
 		logger.LogError(r.InsertUser, err.Error(), err)
 		return
 	}

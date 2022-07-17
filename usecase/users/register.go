@@ -18,7 +18,7 @@ func (u *userUsecase) Register(request model.Register, role string) error {
 		return err
 	}
 
-	if role != "" {
+	if role == "" {
 		role = constant.USER
 	}
 
@@ -42,7 +42,7 @@ func (u *userUsecase) GeneratePassword(password string) (hashedPassword string, 
 
 	byteHashPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		msg = errors.New("failed to hash password")
+		msg = errors.New(constant.ErrToHashPassword)
 		logger.LogError(u.GeneratePassword, msg.Error(), err)
 		return
 	}
@@ -50,7 +50,7 @@ func (u *userUsecase) GeneratePassword(password string) (hashedPassword string, 
 	err = bcrypt.CompareHashAndPassword(byteHashPassword, []byte(password))
 
 	if err != nil {
-		msg = errors.New("failed to compare password")
+		msg = errors.New(constant.ErrToCompareHashPassword)
 		logger.LogError(u.GeneratePassword, msg.Error(), err)
 		return
 	}

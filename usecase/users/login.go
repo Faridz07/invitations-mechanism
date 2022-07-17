@@ -10,21 +10,27 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (u *userUsecase) Login(request model.Login) (jwtResult model.ResultClaims, err error) {
+func (u *userUsecase) Login(request model.Login, role string) (jwtResult model.ResultClaims, err error) {
 	user, err := u.userRepository.GetUserByEmail(request.Email)
 	if err != nil {
 		return
 	}
 
 	if !u.ComparePassword(user.Password, request.Password) {
-		err = errors.New(constant.LoginFailed)
-		logger.LogError(u.Login, constant.LoginFailed, errors.New("user exist but hashpassword doesn't match!"))
+		err = errors.New(constant.ErrLoginFailed)
+		logger.LogError(u.Login, constant.ErrLoginFailed, errors.New(constant.ErrHashPasswordDoesntMatch))
+		return
+	}
+
+	if user.RoleName != role {
+		err = errors.New(constant.ErrUserLoginUnAuthorized)
+		logger.LogError(u.Login, constant.ErrUserLoginUnAuthorized, errors.New(constant.ErrUserLoginUnAuthorized))
 		return
 	}
 
 	jwtResult, err = jwt.GenerateJwtToken(user.Username, user.Email)
 	if err != nil {
-		msg := errors.New("something when wrong, please try again!")
+		msg := errors.New(constant.ErrSomethingWhenWrong)
 		logger.LogError(u.Login, msg.Error(), err)
 		err = msg
 		return

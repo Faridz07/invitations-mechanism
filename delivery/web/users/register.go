@@ -14,14 +14,14 @@ func (u *userWeb) Register(c *gin.Context) {
 	var register model.Register
 	if err := c.ShouldBind(&register); err != nil {
 		if register.Username == "" || register.Email == "" || register.Password == "" || register.ConfirmPassword == "" {
-			helper.ResponseErrorWithCode(c, http.StatusBadRequest, constant.InvalidRequest, err)
+			helper.ResponseErrorWithCode(c, http.StatusBadRequest, constant.ErrInvalidRequest, err)
 			return
 		}
 	} else if register.Password != register.ConfirmPassword {
-		helper.ResponseErrorWithCode(c, http.StatusBadRequest, constant.PasswordDoesntMatch, nil)
+		helper.ResponseErrorWithCode(c, http.StatusBadRequest, constant.ErrPasswordDoesntMatch, nil)
 		return
 	} else if re := regexp.MustCompile(constant.EmailRegex); !re.MatchString(register.Email) {
-		helper.ResponseErrorWithCode(c, http.StatusBadRequest, constant.InvalidEmail, nil)
+		helper.ResponseErrorWithCode(c, http.StatusBadRequest, constant.ErrInvalidEmail, nil)
 		return
 	}
 
