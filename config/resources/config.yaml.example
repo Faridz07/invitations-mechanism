@@ -13,3 +13,8 @@ db:
 jwt:
   secret: "1nvit4ti0nT0k3n"
   expired: 60
+redis:
+  host: "localhost"
+  port: 6379
+  password:
+  db: 0

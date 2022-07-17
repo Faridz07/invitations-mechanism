@@ -6,7 +6,9 @@ import (
 	"invitations-mechanism/infrastructure/logger"
 	"invitations-mechanism/model"
 	"strings"
+	"time"
 
+	"github.com/go-redis/redis"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -15,10 +17,12 @@ type UserRepository interface {
 	InsertUser(user model.User) error
 	CheckUser(user model.User) (exist bool, err error)
 	GetUserByEmail(email string) (result model.User, err error)
+	GetLoginAttempt(deviceId string, cache bool, retry int) (count int, ttl time.Duration)
 }
 
 type userRepository struct {
-	db *gorm.DB
+	db  *gorm.DB
+	rdc *redis.Client
 }
 
 func NewUserRepository() *userRepository {
@@ -27,6 +31,11 @@ func NewUserRepository() *userRepository {
 
 func (r *userRepository) SetDB(db *gorm.DB) *userRepository {
 	r.db = db
+	return r
+}
+
+func (r *userRepository) SetRedis(rdc *redis.Client) *userRepository {
+	r.rdc = rdc
 	return r
 }
 
@@ -82,6 +91,42 @@ func (r *userRepository) GetUserByEmail(email string) (result model.User, err er
 		err = errors.New(constant.ErrUserDoesntExist)
 		logger.LogError(r.InsertUser, err.Error(), err)
 		return
+	}
+
+	return
+}
+
+func (r *userRepository) GetLoginAttempt(deviceId string, cache bool, retry int) (count int, ttl time.Duration) {
+
+	count, _ = r.rdc.Get(deviceId).Int()
+	ttl, _ = r.rdc.TTL(deviceId).Result()
+	if count != 0 {
+		retry = count
+	} else if ttl.Seconds() < 0 {
+		count = retry
+	}
+
+	if cache {
+		if count < 0 {
+			return
+		} else if count == 0 && ttl.Minutes() < 0 {
+			count = constant.MAX_RETRY_LOGIN_WITH_INVITATIONS - 1
+			err := r.rdc.Set(deviceId, count, time.Duration(1800*time.Second)).Err()
+			if err != nil {
+				logger.LogError(r.GetLoginAttempt, "failed set to redis", err)
+				return
+			}
+		} else {
+			count -= 1
+			err := r.rdc.Del(deviceId).Err()
+			if err == nil {
+				err = r.rdc.Set(deviceId, count, time.Duration(1800*time.Second)).Err()
+				if err != nil {
+					logger.LogError(r.GetLoginAttempt, "failed set to redis", err)
+					return
+				}
+			}
+		}
 	}
 
 	return

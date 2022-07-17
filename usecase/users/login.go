@@ -2,6 +2,7 @@ package usecase_user
 
 import (
 	"errors"
+	"fmt"
 	"invitations-mechanism/infrastructure/constant"
 	"invitations-mechanism/infrastructure/jwt"
 	"invitations-mechanism/infrastructure/logger"
@@ -47,4 +48,25 @@ func (u *userUsecase) ComparePassword(hashedPassword string, password string) bo
 	}
 
 	return true
+}
+
+func (u *userUsecase) LoginWithInvitationCode(code, deviceId string) (message string, err error) {
+
+	retry := constant.MAX_RETRY_LOGIN_WITH_INVITATIONS
+	retry, ttl := u.userRepository.GetLoginAttempt(deviceId, false, retry)
+	if u.invitationRepository.CheckActiveInvitationCode(code) && retry > 0 {
+		message = constant.SUCCESS_INVITATION_LOGIN
+		return
+	}
+
+	retry, ttl = u.userRepository.GetLoginAttempt(deviceId, true, retry)
+	if retry <= 0 && ttl.Minutes() > 0 {
+		err = errors.New(fmt.Sprintf(constant.ErrToManyAttempts, ttl.String()))
+		return
+	} else {
+		err = errors.New(fmt.Sprintf(constant.ErrRetryInvalidCode, retry))
+	}
+
+	return
+
 }

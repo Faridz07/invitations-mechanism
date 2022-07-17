@@ -14,28 +14,27 @@ import (
 	"invitations-mechanism/delivery/helper"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
 	"gorm.io/gorm"
 )
 
-func Router(db *gorm.DB) *gin.Engine {
-
-	userRepo := repository_users.NewUserRepository().SetDB(db)
-	usersUsecase := usecase_users.NewUserUsecase(userRepo)
-	usersWeb := web_users.NewUserWeb(usersUsecase)
+func Router(db *gorm.DB, rdc *redis.Client) *gin.Engine {
 
 	invitationRepo := repository_invitation.NewInvitationRepository().SetDB(db)
 	invitationUsecase := usecase_invitation.NewInvitationUsecase(invitationRepo)
 	invitationWeb := web_invitation.NewInvitationWeb(invitationUsecase)
 
+	userRepo := repository_users.NewUserRepository().SetDB(db).SetRedis(rdc)
+	usersUsecase := usecase_users.NewUserUsecase(userRepo, invitationRepo)
+	usersWeb := web_users.NewUserWeb(usersUsecase)
+
 	router := gin.Default()
 	router.Use(middleware.Logger())
-
 	router.GET("/ping", func(c *gin.Context) {
 		helper.ResponseOK(c, "pong!")
 	})
 
 	api := router.Group("api")
-
 	v1 := api.Group("v1")
 	v1.GET("/test", func(c *gin.Context) {
 		helper.ResponseOK(c, "server Up!")
@@ -56,6 +55,11 @@ func Router(db *gorm.DB) *gin.Engine {
 	pubInvitation := admin.Group("invitation")
 	{
 		pubInvitation.GET("/validate/:code", invitationWeb.ValidateInvitation)
+	}
+
+	user := v1.Group("user")
+	{
+		user.POST("/login/:code", usersWeb.LoginWithInvitationCode)
 	}
 
 	router.NoRoute(func(c *gin.Context) {

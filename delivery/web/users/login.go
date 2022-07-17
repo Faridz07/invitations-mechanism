@@ -36,3 +36,25 @@ func (u *userWeb) Login(c *gin.Context) {
 
 	helper.ResponseOKWithSingleData(c, constant.SUCCESS, token)
 }
+
+func (u *userWeb) LoginWithInvitationCode(c *gin.Context) {
+	code, exist := c.Params.Get("code")
+	if code == "" || !exist {
+		helper.ResponseErrorWithCode(c, http.StatusBadRequest, constant.ErrCodeEmpty, nil)
+		return
+	}
+
+	deviceId := c.Request.Header.Get("deviceId")
+	if deviceId == "" {
+		helper.ResponseErrorWithCode(c, http.StatusMethodNotAllowed, constant.ErrInvalidDeviceId, nil)
+		return
+	}
+
+	message, err := u.uc_users.LoginWithInvitationCode(code, deviceId)
+	if err != nil {
+		helper.ResponseErrorWithCode(c, http.StatusBadRequest, err.Error(), err)
+		return
+	}
+
+	helper.ResponseOKWithSingleData(c, constant.SUCCESS, message)
+}

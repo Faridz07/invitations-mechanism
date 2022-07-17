@@ -12,3 +12,7 @@ var (
 	STATUS_INVITATION_ACTIVE   = "active"
 	STATUS_INVITATION_INACTIVE = "in_active"
 )
+
+var (
+	SUCCESS_INVITATION_LOGIN = "Login Successful"
+)

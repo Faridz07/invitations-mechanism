@@ -2,6 +2,8 @@ package config
 
 import (
 	"errors"
+	"fmt"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -52,6 +54,28 @@ func GetJWTSecret() []byte {
 
 func GetJWTExpired() int {
 	return viper.GetInt("jwt.expired")
+}
+
+func GetRedisHost() string {
+	return viper.GetString("redis.host")
+}
+
+func GetRedisPort() int {
+	return viper.GetInt("redis.port")
+}
+
+func GetRedisPassword() string {
+	return viper.GetString("redis.password")
+}
+
+func GetRedisDB() int {
+	return viper.GetInt("redis.db")
+}
+
+func GetRedisTTL() int {
+	ttl := viper.GetInt("redis.ttl")
+	h, _ := time.ParseDuration(fmt.Sprintf("%dm", ttl))
+	return int(h.Seconds())
 }
 
 func LoadConfig() error {
