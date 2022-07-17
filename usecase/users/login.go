@@ -28,7 +28,7 @@ func (u *userUsecase) Login(request model.Login, role string) (jwtResult model.R
 		return
 	}
 
-	jwtResult, err = jwt.GenerateJwtToken(user.Username, user.Email)
+	jwtResult, err = jwt.GenerateJwtToken(user)
 	if err != nil {
 		msg := errors.New(constant.ErrSomethingWhenWrong)
 		logger.LogError(u.Login, msg.Error(), err)

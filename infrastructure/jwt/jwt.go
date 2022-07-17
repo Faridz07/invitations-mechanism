@@ -8,14 +8,15 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func GenerateJwtToken(username, email string) (result model.ResultClaims, err error) {
+func GenerateJwtToken(user model.User) (result model.ResultClaims, err error) {
 	claims := model.MyClaims{
 		StandardClaims: jwt.StandardClaims{
 			Issuer:    config.GetServiceName() + config.GetServiceVersion(),
 			ExpiresAt: time.Now().Add(time.Duration(config.GetJWTExpired() * int(time.Minute))).Unix(),
 		},
-		Username: username,
-		Email:    email,
+		Username: user.Username,
+		Email:    user.Email,
+		Role:     user.RoleName,
 	}
 
 	token := jwt.NewWithClaims(

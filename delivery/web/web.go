@@ -39,6 +39,15 @@ func Router(db *gorm.DB) *gin.Engine {
 		admin.POST("/login", usersWeb.Login)
 	}
 
+	invitation := admin.Group("invitation").Use(middleware.AdminValidations())
+	{
+		invitation.POST("/add", func(ctx *gin.Context) {
+			ctx.String(http.StatusOK, "TEST")
+		})
+		invitation.GET("/check")
+		invitation.GET("/history")
+	}
+
 	router.NoRoute(func(c *gin.Context) {
 		helper.ResponseErrorWithCode(c, http.StatusMethodNotAllowed, "method not allowed!", nil)
 	})

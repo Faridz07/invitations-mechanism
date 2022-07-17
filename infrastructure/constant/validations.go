@@ -11,6 +11,9 @@ var (
 	ErrToCompareHashPassword   = "failed to compare password"
 	ErrUserLoginUnAuthorized   = "unauthorized! you not allowed to login in this page!"
 	ErrSomethingWhenWrong      = "something when wrong, please try again!"
+	ErrInvalidSigningMethod    = "Signing method invalid"
+	ErrInvalidToken            = "invalid jwt token"
+	ErrRoleName                = "invalid role name"
 )
 
 var (
