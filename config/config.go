@@ -2,11 +2,8 @@ package config
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/spf13/viper"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 type EnvironmentVariable struct {
@@ -72,17 +69,4 @@ func LoadConfig() error {
 	}
 
 	return nil
-}
-
-func GetDBConnections() (db *gorm.DB, err error) {
-
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", GetDBUsername(), GetDBPassword(), GetDBServer(), GetDBPort(), GetDBName())
-
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		err = errors.New("failed connect to db:" + err.Error())
-		return
-	}
-
-	return
 }

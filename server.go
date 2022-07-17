@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"invitations-mechanism/config"
 	"invitations-mechanism/delivery/web"
+	"invitations-mechanism/infrastructure/database"
 	"invitations-mechanism/infrastructure/logger"
 	"strconv"
 )
@@ -29,9 +30,9 @@ func init() {
 
 func main() {
 
-	db, err := config.GetDBConnections()
+	db, err := database.GetDBConnections()
 	if err != nil {
-		logger.LogFatal(config.GetDBConnections, err.Error())
+		logger.LogFatal(database.GetDBConnections, err.Error())
 		return
 	}
 
