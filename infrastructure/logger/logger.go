@@ -1,11 +1,13 @@
 package logger
 
 import (
+	"invitations-mechanism/model"
 	"os"
 	"reflect"
 	"runtime"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -23,6 +25,51 @@ func LogInfo(context interface{}, message string) {
 	log.WithFields(log.Fields{
 		"context": getFunctionName(context),
 	}).Info(message)
+}
+
+func LogInfoWithRequest(context interface{}, message string) {
+	log.WithFields(log.Fields{
+		"request":    context,
+		"response":   "",
+		"statusCode": "",
+	}).Info(message)
+}
+
+func LogInfoWithResponse(context *gin.Context, message string) {
+	val, _ := context.Get("logger")
+	response, _ := context.Get("response")
+
+	logger := val.(model.Logger)
+
+	log.WithFields(log.Fields{
+		"request":    logger,
+		"response":   response,
+		"statusCode": context.Writer.Status(),
+	}).Info(message)
+}
+
+func LogErrorWithRequest(context *gin.Context, message string) {
+	val, _ := context.Get("logger")
+	response, _ := context.Get("response")
+
+	logger := val.(model.Logger)
+	log.WithFields(log.Fields{
+		"request":    logger,
+		"response":   response,
+		"statusCode": context.Writer.Status(),
+	}).Error(message)
+}
+
+func LogErrorWithResponse(context *gin.Context, message string) {
+	val, _ := context.Get("logger")
+	response, _ := context.Get("response")
+
+	logger := val.(model.Logger)
+	log.WithFields(log.Fields{
+		"request":    logger,
+		"response":   response,
+		"statusCode": context.Writer.Status(),
+	}).Error(message)
 }
 
 func LogError(context interface{}, message string) {

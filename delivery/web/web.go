@@ -1,6 +1,7 @@
 package web
 
 import (
+	"invitations-mechanism/delivery/middleware"
 	users_web "invitations-mechanism/delivery/web/users"
 	repository_users "invitations-mechanism/repository/users"
 	usecase_users "invitations-mechanism/usecase/users"
@@ -19,6 +20,8 @@ func Router(db *gorm.DB) *gin.Engine {
 	usersWeb := users_web.NewUserWeb(usersUsecase)
 
 	router := gin.Default()
+	router.Use(middleware.Logger())
+
 	router.GET("/ping", func(c *gin.Context) {
 		helper.ResponseOK(c, "pong!")
 	})
@@ -32,11 +35,11 @@ func Router(db *gorm.DB) *gin.Engine {
 
 	users := v1.Group("user")
 	{
-		users.GET("/register", usersWeb.Register)
+		users.POST("/register", usersWeb.Register)
 	}
 
 	router.NoRoute(func(c *gin.Context) {
-		helper.ResponseErrorWithCode(c, http.StatusMethodNotAllowed, "method not allowed!")
+		helper.ResponseErrorWithCode(c, http.StatusMethodNotAllowed, "method not allowed!", nil)
 	})
 
 	return router
