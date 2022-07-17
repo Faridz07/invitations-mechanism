@@ -10,16 +10,16 @@ import (
 )
 
 type EnvironmentVariable struct {
-	DBServer      string
-	DBName        string
-	DBUsername    string
-	DBPassword    string
-	DBPort        int
-	DBTimezone    string
-	ServerName    string
-	ServerPort    int
-	ServerVersion string
-	ServerDebug   bool
+	DBServer       string
+	DBName         string
+	DBUsername     string
+	DBPassword     string
+	DBPort         int
+	DBTimezone     string
+	ServiceName    string
+	ServicePort    int
+	ServiceVersion string
+	ServiceDebug   bool
 }
 
 func GetDBServer() string {
@@ -46,20 +46,20 @@ func GetDBTimezone() string {
 	return viper.GetString("db.timezone")
 }
 
-func GetServerName() string {
-	return viper.GetString("server.name")
+func GetServiceName() string {
+	return viper.GetString("service.name")
 }
 
-func GetServerPort() int {
-	return viper.GetInt("server.port")
+func GetServicePort() int {
+	return viper.GetInt("service.port")
 }
 
-func GetServerVersion() string {
-	return viper.GetString("server.version")
+func GetServiceVersion() string {
+	return viper.GetString("service.version")
 }
 
-func GetServerDebug() bool {
-	return viper.GetBool("server.debug")
+func GetServiceDebug() bool {
+	return viper.GetBool("Service.debug")
 }
 
 func LoadConfig() error {

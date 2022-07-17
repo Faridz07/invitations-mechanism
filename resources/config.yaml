@@ -1,4 +1,4 @@
-server:
+service:
   port: 8000
   name: "apps"
   version: "1.0"

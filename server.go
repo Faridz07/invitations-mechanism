@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"invitations-mechanism/config"
 	"invitations-mechanism/delivery/web"
 	"invitations-mechanism/infrastructure/logger"
@@ -8,10 +9,10 @@ import (
 )
 
 var (
-	ServerName    string
-	ServerPort    int
-	ServerVersion string
-	ServerDebug   bool
+	ServiceName    string
+	ServicePort    int
+	ServiceVersion string
+	ServiceDebug   bool
 )
 
 func init() {
@@ -20,10 +21,10 @@ func init() {
 		logger.LogError(config.LoadConfig, err.Error())
 	}
 
-	ServerName = config.GetServerName()
-	ServerPort = config.GetServerPort()
-	ServerVersion = config.GetServerVersion()
-	ServerDebug = config.GetServerDebug()
+	ServiceName = config.GetServiceName()
+	ServicePort = config.GetServicePort()
+	ServiceVersion = config.GetServiceVersion()
+	ServiceDebug = config.GetServiceDebug()
 }
 
 func main() {
@@ -33,6 +34,7 @@ func main() {
 		logger.LogError(config.GetDBConnections, err.Error())
 	}
 
-	router := web.Router(db)
-	router.Run(":" + strconv.Itoa(ServerPort))
+	web := web.Router(db)
+	logger.LogInfo(main, fmt.Sprintf("%s running at port %d", ServiceName, ServicePort))
+	web.Run(":" + strconv.Itoa(ServicePort))
 }
