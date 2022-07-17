@@ -1,0 +1,13 @@
+server:
+  port: 8000
+  name: "apps"
+  version: "1.0"
+  debug: true
+db:
+  name: "postgres"
+  server: "localhost"
+  port: 5432
+  username: "postgres"
+  password: "12345AA"
+  timezone: "Asia/Jakarta"
+  
