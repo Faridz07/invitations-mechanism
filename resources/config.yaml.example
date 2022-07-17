@@ -1,13 +1,13 @@
-server:
+service:
   port: 8000
   name: "apps"
   version: "1.0"
   debug: true
 db:
-  name: "postgres"
+  name: "db_test"
   server: "localhost"
-  port: 5432
-  username: "postgres"
-  password: "12345AA"
+  port: 3306
+  username: "root"
+  password: 
   timezone: "Asia/Jakarta"
   

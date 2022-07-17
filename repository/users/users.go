@@ -2,12 +2,13 @@ package repository_user
 
 import (
 	"invitations-mechanism/infrastructure/logger"
+	"invitations-mechanism/model"
 
 	"gorm.io/gorm"
 )
 
 type UserRepository interface {
-	InsertUser()
+	InsertUser(user model.User)
 }
 
 type userRepository struct {
@@ -23,6 +24,6 @@ func (r *userRepository) SetDB(db *gorm.DB) *userRepository {
 	return r
 }
 
-func (r *userRepository) InsertUser() {
+func (r *userRepository) InsertUser(user model.User) {
 	logger.LogInfo(r.InsertUser, "Register Repository")
 }

@@ -18,7 +18,7 @@ var (
 func init() {
 	err := config.LoadConfig()
 	if err != nil {
-		logger.LogError(config.LoadConfig, err.Error())
+		logger.LogFatal(config.LoadConfig, err.Error())
 	}
 
 	ServiceName = config.GetServiceName()
@@ -31,7 +31,8 @@ func main() {
 
 	db, err := config.GetDBConnections()
 	if err != nil {
-		logger.LogError(config.GetDBConnections, err.Error())
+		logger.LogFatal(config.GetDBConnections, err.Error())
+		return
 	}
 
 	web := web.Router(db)

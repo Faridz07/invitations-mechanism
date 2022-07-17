@@ -1,12 +1,14 @@
 package usecase_user
 
 import (
-	"invitations-mechanism/infrastructure/logger"
+	"invitations-mechanism/model"
 	repository_user "invitations-mechanism/repository/users"
+
+	"github.com/google/uuid"
 )
 
 type UserUsecase interface {
-	Register()
+	Register(request model.Register)
 }
 
 type userUsecase struct {
@@ -19,8 +21,14 @@ func NewUserUsecase(userRepo repository_user.UserRepository) *userUsecase {
 	}
 }
 
-func (u *userUsecase) Register() {
-	logger.LogInfo(u.Register, "Register Usecase")
+func (u *userUsecase) Register(request model.Register) {
 
-	u.userRepository.InsertUser()
+	user := model.User{
+		Id:       uuid.New(),
+		Username: request.Username,
+		Email:    request.Email,
+		Password: request.ConfirmPassword,
+	}
+
+	u.userRepository.InsertUser(user)
 }

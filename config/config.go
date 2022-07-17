@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/viper"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -75,9 +75,10 @@ func LoadConfig() error {
 }
 
 func GetDBConnections() (db *gorm.DB, err error) {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=%s", GetDBServer(), GetDBUsername(), GetDBPassword(), GetDBName(), GetDBPort(), GetDBTimezone())
 
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", GetDBUsername(), GetDBPassword(), GetDBServer(), GetDBPort(), GetDBName())
+
+	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		err = errors.New("failed connect to db:" + err.Error())
 		return

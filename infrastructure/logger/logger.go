@@ -78,6 +78,12 @@ func LogError(context interface{}, message string) {
 	}).Error(message)
 }
 
+func LogFatal(context interface{}, message string) {
+	log.WithFields(log.Fields{
+		"context": getFunctionName(context),
+	}).Fatal(message)
+}
+
 func getFunctionName(i interface{}) string {
 	strs := strings.Split((runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()), ".")
 	return strs[len(strs)-1]
