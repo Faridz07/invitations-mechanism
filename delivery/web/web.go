@@ -33,9 +33,10 @@ func Router(db *gorm.DB) *gin.Engine {
 		helper.ResponseOK(c, "server Up!")
 	})
 
-	users := v1.Group("user")
+	admin := v1.Group("admin")
 	{
-		users.POST("/register", usersWeb.Register)
+		admin.POST("/register", usersWeb.Register)
+		admin.POST("/login", usersWeb.Login)
 	}
 
 	router.NoRoute(func(c *gin.Context) {

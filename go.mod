@@ -4,9 +4,11 @@ go 1.17
 
 require (
 	github.com/gin-gonic/gin v1.8.1
+	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/google/uuid v1.3.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.12.0
+	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d
 	gorm.io/driver/mysql v1.3.5
 	gorm.io/gorm v1.23.8
 )
@@ -37,7 +39,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.3.0 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
-	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
 	golang.org/x/net v0.0.0-20220708220712-1185a9018129 // indirect
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 	golang.org/x/text v0.3.7 // indirect

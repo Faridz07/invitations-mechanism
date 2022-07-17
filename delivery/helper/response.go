@@ -17,6 +17,8 @@ func ResponseOK(c *gin.Context, msg string) {
 
 	c.Set("response", body)
 	c.JSON(http.StatusOK, body)
+	logger.LogInfoWithResponse(c, msg)
+	return
 }
 
 func ResponseOKWithSingleData(c *gin.Context, msg string, data interface{}) {
@@ -28,6 +30,8 @@ func ResponseOKWithSingleData(c *gin.Context, msg string, data interface{}) {
 
 	c.Set("response", body)
 	c.JSON(http.StatusOK, body)
+	logger.LogInfoWithResponse(c, msg)
+	return
 }
 
 func ResponseOKWithArrayData(c *gin.Context, msg string, data []interface{}) {
@@ -39,6 +43,8 @@ func ResponseOKWithArrayData(c *gin.Context, msg string, data []interface{}) {
 
 	c.Set("response", body)
 	c.JSON(http.StatusOK, body)
+	logger.LogInfoWithResponse(c, msg)
+	return
 }
 
 func ResponseFailed(c *gin.Context, code int, msg string, err error) {
@@ -56,6 +62,7 @@ func ResponseFailed(c *gin.Context, code int, msg string, err error) {
 	}
 
 	logger.LogErrorWithRequest(c, msg)
+	return
 }
 
 func ResponseError(c *gin.Context, msg string, err error) {
@@ -73,6 +80,7 @@ func ResponseError(c *gin.Context, msg string, err error) {
 	}
 
 	logger.LogErrorWithRequest(c, msg)
+	return
 }
 
 func ResponseErrorWithCode(c *gin.Context, code int, msg string, err error) {

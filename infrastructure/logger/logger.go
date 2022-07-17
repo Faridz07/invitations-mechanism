@@ -72,9 +72,10 @@ func LogErrorWithResponse(context *gin.Context, message string) {
 	}).Error(message)
 }
 
-func LogError(context interface{}, message string) {
+func LogError(context interface{}, message string, err error) {
 	log.WithFields(log.Fields{
 		"context": getFunctionName(context),
+		"details": err,
 	}).Error(message)
 }
 

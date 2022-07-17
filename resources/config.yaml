@@ -10,4 +10,6 @@ db:
   username: "root"
   password: 
   timezone: "Asia/Jakarta"
-  
+jwt:
+  secret: "1nvit4ti0nT0k3n"
+  expired: 60

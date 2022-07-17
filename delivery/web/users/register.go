@@ -25,5 +25,11 @@ func (u *userWeb) Register(c *gin.Context) {
 		return
 	}
 
-	u.uc_users.Register(register)
+	err := u.uc_users.Register(register, constant.ADMIN)
+	if err != nil {
+		helper.ResponseErrorWithCode(c, http.StatusBadRequest, err.Error(), nil)
+		return
+	}
+
+	helper.ResponseOKWithSingleData(c, constant.SUCCESS, nil)
 }

@@ -6,19 +6,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-type EnvironmentVariable struct {
-	DBServer       string
-	DBName         string
-	DBUsername     string
-	DBPassword     string
-	DBPort         int
-	DBTimezone     string
-	ServiceName    string
-	ServicePort    int
-	ServiceVersion string
-	ServiceDebug   bool
-}
-
 func GetDBServer() string {
 	return viper.GetString("db.server")
 }
@@ -57,6 +44,14 @@ func GetServiceVersion() string {
 
 func GetServiceDebug() bool {
 	return viper.GetBool("Service.debug")
+}
+
+func GetJWTSecret() []byte {
+	return []byte(viper.GetString("jwt.secret"))
+}
+
+func GetJWTExpired() int {
+	return viper.GetInt("jwt.expired")
 }
 
 func LoadConfig() error {

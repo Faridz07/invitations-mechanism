@@ -8,6 +8,7 @@ import (
 
 type UserWeb interface {
 	Register(c *gin.Context)
+	Login(c *gin.Context)
 }
 
 type userWeb struct {
