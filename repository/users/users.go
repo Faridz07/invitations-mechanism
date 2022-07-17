@@ -2,7 +2,7 @@ package repository_user
 
 import (
 	"errors"
-	"invitations-mechanism/constant"
+	"invitations-mechanism/infrastructure/constant"
 	"invitations-mechanism/infrastructure/logger"
 	"invitations-mechanism/model"
 	"strings"

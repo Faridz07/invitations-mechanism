@@ -1,8 +1,8 @@
 package users
 
 import (
-	"invitations-mechanism/constant"
 	"invitations-mechanism/delivery/helper"
+	"invitations-mechanism/infrastructure/constant"
 	"invitations-mechanism/model"
 	"net/http"
 	"regexp"

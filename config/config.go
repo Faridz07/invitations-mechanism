@@ -57,7 +57,7 @@ func GetJWTExpired() int {
 func LoadConfig() error {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath("./resources/")
+	viper.AddConfigPath("./config/resources/")
 	err := viper.ReadInConfig()
 	if err != nil {
 		return errors.New("fatal error config file:" + err.Error())
