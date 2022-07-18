@@ -35,10 +35,21 @@ This Coding Test uses a number of open source projects to work properly:
 # cd invitations-mechanism
 ```
 
-## Run
+## Run with docker
+
 ```  
 # docker compose up
 ```
+
+## Run with local machine
+
+>Step by step: 
+>- Setup local environment: Go v.1.7, postgres, redis 
+>- Rename config.example to config.yaml in folder : /config/resource/config.example to config.yaml
+>- Setup variable like database and redis credentials in config.yaml
+>- run command : go run server.go
+>- Download postman collections below
+>
 
 ## API Documentations ([Postman Collections](https://www.getpostman.com/collections/673c407472ef383199ef))
 
