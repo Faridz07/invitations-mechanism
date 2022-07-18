@@ -1,6 +1,8 @@
 package model
 
 import (
+	"time"
+
 	uuid "github.com/google/uuid"
 )
 
@@ -9,8 +11,8 @@ type Invitation struct {
 	Code      string    `json:"code" db:"code"`
 	Status    string    `json:"status" db:"status"`
 	CreatedBy uuid.UUID `json:"created_by" db:"created_by"`
-	CreatedAt string    `json:"created_at" db:"created_at"`
-	ExpiredAt string    `json:"expired_at" db:"expired_at"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
+	ExpiredAt time.Time `json:"expired_at" db:"expired_at"`
 }
 
 type History struct {
@@ -26,7 +28,7 @@ type Paginate struct {
 }
 
 type ValidateInvitation struct {
-	Code      string `json:"code"`
-	Status    string `json:"status"`
-	ExpiredAt string `json:"expired_at"`
+	Code      string    `json:"code"`
+	Status    string    `json:"status"`
+	ExpiredAt time.Time `json:"expired_at"`
 }

@@ -19,8 +19,7 @@ func (u *invitationUsecase) ValidateInvitation(code string) (validation model.Va
 		return
 	}
 
-	expiredDate, _ := time.Parse(time.RFC3339, invitation.ExpiredAt)
-	if invitation.Status == constant.STATUS_INVITATION_ACTIVE && expiredDate.Before(time.Now()) {
+	if invitation.Status == constant.STATUS_INVITATION_ACTIVE && invitation.ExpiredAt.Before(time.Now()) {
 		results, err := u.invitationRepository.UpdateInvitation(code, constant.STATUS_INVITATION_ACTIVE, constant.STATUS_INVITATION_INACTIVE)
 		if results.Id != uuid.Nil && err == nil {
 			invitation = results

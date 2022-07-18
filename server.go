@@ -33,12 +33,14 @@ func main() {
 
 	db, err := database.GetDBConnections()
 	if err != nil {
+		fmt.Println(err.Error())
 		logger.LogFatal(database.GetDBConnections, err.Error())
 		return
 	}
 
 	rdc, err := redis.RedisConnect()
 	if err != nil {
+		fmt.Println(err.Error())
 		logger.LogFatal(redis.RedisConnect, err.Error())
 		return
 	}

@@ -4,17 +4,18 @@ service:
   version: "1.0"
   debug: true
 db:
-  name: "db_test"
-  server: "localhost"
-  port: 3306
-  username: "root"
-  password: 
+  server: "postgres"
+  name: "postgres"
+  port: 5432
+  username: "postgres"
+  password: "12345AA"
   timezone: "Asia/Jakarta"
 jwt:
   secret: "1nvit4ti0nT0k3n"
   expired: 60
 redis:
-  host: "localhost"
+  host: "redis"
   port: 6379
   password:
   db: 0
+  ttl: 30

@@ -54,7 +54,7 @@ func (r *invitationRepository) InsertInvitation(invitation model.Invitation) err
 func (r *invitationRepository) CheckActiveInvitationCode(code string) bool {
 	invitation := model.Invitation{}
 
-	if rows := r.db.Where("code = ? and status = ? and expired_at BETWEEN NOW() and NOW() + interval 7 day", code, constant.STATUS_INVITATION_ACTIVE).First(&invitation).RowsAffected; rows > 0 {
+	if rows := r.db.Where("code = ? and status = ? and expired_at between now()::timestamptz and now()::timestamptz + INTERVAL '7 DAY'", code, constant.STATUS_INVITATION_ACTIVE).First(&invitation).RowsAffected; rows > 0 {
 		return true
 	}
 

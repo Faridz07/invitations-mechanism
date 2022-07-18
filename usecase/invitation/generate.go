@@ -32,8 +32,8 @@ func (u *invitationUsecase) GenerateInvitation(claims interface{}) (invitation m
 		Code:      string(b),
 		Status:    constant.STATUS_INVITATION_ACTIVE,
 		CreatedBy: uuid.MustParse(fmt.Sprintf("%v", newClaims[constant.ID])),
-		CreatedAt: time.Now().Format(time.RFC3339),
-		ExpiredAt: time.Now().AddDate(0, 0, constant.EXPIRED_INVITATION).Format(time.RFC3339),
+		CreatedAt: time.Now(),
+		ExpiredAt: time.Now().AddDate(0, 0, constant.EXPIRED_INVITATION),
 	}
 
 	err = u.invitationRepository.InsertInvitation(data)
