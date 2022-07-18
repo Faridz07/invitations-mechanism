@@ -52,9 +52,9 @@ func Router(db *gorm.DB, rdc *redis.Client) *gin.Engine {
 		invitation.GET("/history", invitationWeb.HistoryInvitation)
 	}
 
-	pubInvitation := admin.Group("invitation")
+	pubInvitation := v1.Group("invitation")
 	{
-		pubInvitation.GET("/validate/:code", invitationWeb.ValidateInvitation)
+		pubInvitation.GET("/:code", invitationWeb.ValidateInvitation)
 	}
 
 	user := v1.Group("user")

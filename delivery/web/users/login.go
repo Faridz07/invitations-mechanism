@@ -30,7 +30,7 @@ func (u *userWeb) Login(c *gin.Context) {
 			return
 		}
 
-		helper.ResponseErrorWithCode(c, http.StatusBadRequest, err.Error(), nil)
+		helper.ResponseErrorWithCode(c, http.StatusBadRequest, constant.ErrLoginFailed, nil)
 		return
 	}
 
