@@ -45,7 +45,7 @@ This Coding Test uses a number of open source projects to work properly:
 
 >Step by step: 
 >- Setup local environment: Go v.1.7, postgres, redis 
->- Rename config.example to config.yaml in folder : /config/resource/config.example to config.yaml
+>- Rename config.yaml.example to config.yaml in folder : /config/resource/config.example to config.yaml
 >- Setup variable like database and redis credentials in config.yaml
 >- run command : go run server.go
 >- Download postman collections below
